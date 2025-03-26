@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,6 +53,16 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+                mintgreen: {
+                    DEFAULT: '#92D18D',
+                    light: '#AEDCAA',
+                    dark: '#6DAB68'
+                },
+                creamyellow: {
+                    DEFAULT: '#FAFBE7',
+                    light: '#FFFEF0',
+                    dark: '#EFF0D8'
+                },
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -70,25 +81,42 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
-				}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+                'progress-animation': {
+                    '0%': { 'stroke-dasharray': '0 100' },
+                    '100%': { 'stroke-dasharray': 'var(--progress-value) 100' }
+                },
+                'fade-in-up': {
+                    '0%': { 
+                        opacity: '0',
+                        transform: 'translateY(10px)'
+                    },
+                    '100%': { 
+                        opacity: '1',
+                        transform: 'translateY(0)'
+                    }
+                },
+                'pulse-gentle': {
+                    '0%, 100%': {
+                        transform: 'scale(1)'
+                    },
+                    '50%': {
+                        transform: 'scale(1.05)'
+                    }
+                }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+                'progress-circle': 'progress-animation 1.5s ease-out forwards',
+                'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+                'pulse-gentle': 'pulse-gentle 2s ease-in-out infinite'
 			}
 		}
 	},
