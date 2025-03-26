@@ -35,6 +35,56 @@ const Index = () => {
 
   const handleNavigate = (tab: string) => {
     setActiveTab(tab);
+    // For demonstration purposes, we're just changing the active tab
+    // In a real app, you might want to navigate to different views/pages
+  };
+
+  // Render content based on active tab
+  const renderContent = () => {
+    switch (activeTab) {
+      case "home":
+        return (
+          <>
+            <div className="flex justify-center my-8">
+              <CircularProgress 
+                value={progress} 
+                className="animate-pulse-gentle"
+              />
+            </div>
+            
+            <div className="flex-grow">
+              {activities.map((activity) => (
+                <ActivityItem
+                  key={activity.id}
+                  title={activity.title}
+                  duration={activity.duration}
+                  status={activity.status}
+                />
+              ))}
+            </div>
+          </>
+        );
+      case "calendar":
+        return (
+          <div className="flex-grow flex items-center justify-center p-4">
+            <div className="text-center">
+              <h2 className="text-xl font-bold mb-2">Calendar View</h2>
+              <p className="text-gray-600">Your schedule will appear here</p>
+            </div>
+          </div>
+        );
+      case "profile":
+        return (
+          <div className="flex-grow flex items-center justify-center p-4">
+            <div className="text-center">
+              <h2 className="text-xl font-bold mb-2">User Profile</h2>
+              <p className="text-gray-600">Your profile information will appear here</p>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -43,23 +93,7 @@ const Index = () => {
         <div className="h-full flex flex-col justify-between">
           <Header name="Tumelo" date={date} />
           
-          <div className="flex justify-center my-8">
-            <CircularProgress 
-              value={progress} 
-              className="animate-pulse-gentle"
-            />
-          </div>
-          
-          <div className="flex-grow">
-            {activities.map((activity) => (
-              <ActivityItem
-                key={activity.id}
-                title={activity.title}
-                duration={activity.duration}
-                status={activity.status}
-              />
-            ))}
-          </div>
+          {renderContent()}
           
           <BottomNavigation
             active={activeTab}

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Home, Grid, Play } from "lucide-react";
+import { Home, Calendar, User } from "lucide-react";
 
 interface BottomNavigationProps {
   active: string;
@@ -17,19 +17,33 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         className={`bottom-nav-item ${active === "home" ? "active" : ""}`}
         onClick={() => onNavigate("home")}
       >
-        <span>Home</span>
+        {active === "home" ? (
+          <span>Home</span>
+        ) : (
+          <Home size={20} />
+        )}
       </button>
+      
       <button
-        className="p-2 rounded-full bg-zinc-700 hover:bg-zinc-600 transition-colors"
-        onClick={() => onNavigate("grid")}
+        className={`bottom-nav-item ${active === "calendar" ? "active" : ""}`}
+        onClick={() => onNavigate("calendar")}
       >
-        <Grid size={20} />
+        {active === "calendar" ? (
+          <span>Calendar</span>
+        ) : (
+          <Calendar size={20} />
+        )}
       </button>
+      
       <button
-        className="p-2 rounded-full bg-zinc-700 hover:bg-zinc-600 transition-colors"
-        onClick={() => onNavigate("play")}
+        className={`bottom-nav-item ${active === "profile" ? "active" : ""}`}
+        onClick={() => onNavigate("profile")}
       >
-        <Play size={20} />
+        {active === "profile" ? (
+          <span>Profile</span>
+        ) : (
+          <User size={20} />
+        )}
       </button>
     </div>
   );
