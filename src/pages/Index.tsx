@@ -6,12 +6,21 @@ import BottomNavigation from "@/components/BottomNavigation";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Zap, Star, Trophy } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [progress, setProgress] = useState(0);
   const [date, setDate] = useState("");
   const [activeProgressType, setActiveProgressType] = useState("daily");
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   
   // Sample activities
   const activities = [
@@ -37,13 +46,18 @@ const Index = () => {
   }, []);
 
   const handleNavigate = (tab: string) => {
+    if (tab === "calendar") {
+      // Instead of navigating, open the sheet
+      setIsSheetOpen(true);
+      return;
+    }
+    
     setActiveTab(tab);
-    // For demonstration purposes, we're just changing the active tab
-    // In a real app, you might want to navigate to different views/pages
   };
 
   const handleProgressTypeChange = (type: string) => {
     setActiveProgressType(type);
+    setIsSheetOpen(false); // Close the sheet after selection
   };
 
   // Render content based on active tab
@@ -71,46 +85,6 @@ const Index = () => {
             </div>
           </>
         );
-      case "calendar":
-        return (
-          <div className="flex-grow flex flex-col items-center justify-start p-4 space-y-4">
-            <h2 className="text-xl font-bold mb-2">Progress View</h2>
-            
-            <div className="w-full max-w-md space-y-3">
-              <Button 
-                className={`w-full rounded-full flex items-center justify-start px-4 py-6 ${activeProgressType === 'daily' ? 'bg-mintgreen-dark text-black' : 'bg-gray-200 text-gray-700'}`}
-                onClick={() => handleProgressTypeChange('daily')}
-              >
-                <Zap className="mr-2" size={20} />
-                <span>Daily Progress</span>
-              </Button>
-              
-              <Button 
-                className={`w-full rounded-full flex items-center justify-start px-4 py-6 ${activeProgressType === 'weekly' ? 'bg-mintgreen-dark text-black' : 'bg-gray-200 text-gray-700'}`}
-                onClick={() => handleProgressTypeChange('weekly')}
-              >
-                <Star className="mr-2" size={20} />
-                <span>Weekly Progress</span>
-              </Button>
-              
-              <Button 
-                className={`w-full rounded-full flex items-center justify-start px-4 py-6 ${activeProgressType === 'monthly' ? 'bg-mintgreen-dark text-black' : 'bg-gray-200 text-gray-700'}`}
-                onClick={() => handleProgressTypeChange('monthly')}
-              >
-                <Trophy className="mr-2" size={20} />
-                <span>Monthly Progress</span>
-              </Button>
-            </div>
-            
-            <div className="mt-8 text-center">
-              <p className="text-gray-600">
-                {activeProgressType === 'daily' ? 'Your daily progress stats will appear here' : 
-                 activeProgressType === 'weekly' ? 'Your weekly progress summary will appear here' : 
-                 'Your monthly achievements will appear here'}
-              </p>
-            </div>
-          </div>
-        );
       case "profile":
         return (
           <div className="flex-grow flex items-center justify-center p-4">
@@ -132,6 +106,42 @@ const Index = () => {
           <Header name="Tumelo" date={date} />
           
           {renderContent()}
+          
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetContent side="bottom" className="rounded-t-[20px] px-4 py-5">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-center">Progress View</SheetTitle>
+                <SheetDescription className="text-center">
+                  Select the type of progress you want to view
+                </SheetDescription>
+              </SheetHeader>
+              <div className="w-full max-w-md space-y-3 mx-auto">
+                <Button 
+                  className={`w-full rounded-full flex items-center justify-start px-4 py-6 ${activeProgressType === 'daily' ? 'bg-mintgreen-dark text-black' : 'bg-gray-200 text-gray-700'}`}
+                  onClick={() => handleProgressTypeChange('daily')}
+                >
+                  <Zap className="mr-2" size={20} />
+                  <span>Daily Progress</span>
+                </Button>
+                
+                <Button 
+                  className={`w-full rounded-full flex items-center justify-start px-4 py-6 ${activeProgressType === 'weekly' ? 'bg-mintgreen-dark text-black' : 'bg-gray-200 text-gray-700'}`}
+                  onClick={() => handleProgressTypeChange('weekly')}
+                >
+                  <Star className="mr-2" size={20} />
+                  <span>Weekly Progress</span>
+                </Button>
+                
+                <Button 
+                  className={`w-full rounded-full flex items-center justify-start px-4 py-6 ${activeProgressType === 'monthly' ? 'bg-mintgreen-dark text-black' : 'bg-gray-200 text-gray-700'}`}
+                  onClick={() => handleProgressTypeChange('monthly')}
+                >
+                  <Trophy className="mr-2" size={20} />
+                  <span>Monthly Progress</span>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
           
           <BottomNavigation
             active={activeTab}
